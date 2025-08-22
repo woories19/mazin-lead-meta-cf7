@@ -29,3 +29,27 @@ add_action('plugins_loaded', function() {
 if( is_admin() ) {
     new Mazin_GitHub_Updater( __FILE__, 'woories19', 'mazin-lead-meta-cf7' );
 }
+
+add_filter('wpcf7_special_mail_tags', function($output, $name, $html) {
+    switch ($name) {
+        case '_mazin_user_ip':
+            $output = $_SERVER['REMOTE_ADDR'] ?? '';
+            break;
+        case '_mazin_country_city':
+            $output = get_option('mazin_last_country_city', 'Unknown');
+            break;
+        case '_mazin_timezone':
+            $output = get_option('mazin_last_timezone', 'Unknown');
+            break;
+        case '_mazin_browser':
+            $output = get_option('mazin_last_browser', 'Unknown');
+            break;
+        case '_mazin_os':
+            $output = get_option('mazin_last_os', 'Unknown');
+            break;
+        case '_mazin_device':
+            $output = get_option('mazin_last_device', 'Unknown');
+            break;
+    }
+    return $output;
+}, 10, 3);

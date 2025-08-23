@@ -3,7 +3,7 @@
  * Plugin Name: Mazin Lead Meta for CF7
  * Plugin URI:  https://github.com/woories19/mazin-lead-meta-cf7
  * Description: Capture IP, country, city, browser, OS & device info in Contact Form 7 emails.
- * Version:     0.4.0
+ * Version:     0.5.0
  * Author:      Mazin Digital
  * Author URI:  https://mazindigital.com
  * License:     GPL2

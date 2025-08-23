@@ -1,98 +1,108 @@
-# Mazin Lead Meta for CF7
+# Mazin Lead Meta for Contact Form 7
 
-A lightweight WordPress plugin that extends **Contact Form 7** by automatically capturing and attaching user metadata to form submissions.  
-
-Collected data includes:  
-- User IP address  
-- Country, city, and timezone (via IP lookup)  
-- Device type (mobile/tablet/desktop)  
-- Operating system  
-- Browser details  
-
-All captured metadata can be inserted into CF7 email templates via shortcodes, or auto-appended to emails based on settings.  
+A WordPress plugin that automatically captures user metadata (IP, location, browser, OS, device) when they submit Contact Form 7 forms.
 
 ## Features
 
-- ✅ IP & Geolocation (country, city, timezone)  
-- ✅ User Agent parsing (browser, OS, device type)  
-- ✅ Custom CF7 mail-tags (e.g., `_mazin_user_ip`, `_mazin_country_city`, `_mazin_os`)  
-- ✅ Admin settings page to enable/disable features, configure API provider & keys  
-- ✅ Option to auto-append metadata block to all outgoing CF7 emails  
-- ✅ Lightweight GitHub Updater integration for easy plugin updates  
+- **IP Address Detection**: Automatically detects user's real IP address
+- **Geolocation**: Resolves IP to country and city using free APIs
+- **Device Detection**: Identifies browser, operating system, and device type
+- **Timezone**: Captures user's timezone
+- **Multiple IP Services**: Supports ipapi.co, ipwho.is, and ipinfo.io
+- **Admin Settings**: Configurable through WordPress admin panel
 
 ## Installation
 
-1. Download or clone this repo:  
-   git clone https://github.com/woories19/mazin-lead-meta-cf7.git
-
-2. Zip the plugin folder:
-    cd mazin-lead-meta-cf7
-    zip -r mazin-lead-meta-cf7.zip .
-
-3. In WordPress admin → Plugins → Add New → Upload Plugin → choose mazin-lead-meta-cf7.zip.
-
-4. Activate the plugin.
+1. Upload the plugin files to `/wp-content/plugins/mazin-lead-meta-cf7/`
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Go to Settings > Mazin CF7 Lead Meta to configure options
 
 ## Usage
-Contact Form 7 Mail Tags
 
-Use any of the following mail-tags inside your CF7 Mail template:
-[_mazin_user_ip]
-[_mazin_country]
-[_mazin_city]
-[_mazin_country_city]
-[_mazin_timezone]
-[_mazin_user_agent]
-[_mazin_browser]
-[_mazin_os]
-[_mazin_device]
+### In Contact Form 7 Email Templates
 
-## Auto-Append
+Add these tags to your Contact Form 7 email templates:
 
-Enable “Auto-append metadata” in plugin settings to automatically add a metadata block at the bottom of every CF7 email.
+```
+New contact form submission:
 
-## Settings
+Name: [your-name]
+Email: [your-email]
+Message: [your-message]
 
-Navigate to Settings → Mazin Lead Meta (CF7) to configure:
+User Details:
+IP Address: [_mazin_user_ip]
+Location: [_mazin_country_city]
+Timezone: [_mazin_timezone]
+Browser: [_mazin_browser]
+Operating System: [_mazin_os]
+Device Type: [_mazin_device]
+```
 
-- Enable/disable metadata fields
-- Choose API provider (ipapi, ipinfo, ipstack)
-- Add API key if required
-- Control timeout & fallback
-- Toggle auto-append option
+### Available Meta Tags
 
-## GitHub Updater
+- `[_mazin_user_ip]` - User's IP address
+- `[_mazin_country_city]` - Country and city (e.g., "United States, New York")
+- `[_mazin_timezone]` - User's timezone
+- `[_mazin_browser]` - Browser type (Chrome, Firefox, Safari, etc.)
+- `[_mazin_os]` - Operating system (Windows, MacOS, Linux, Android, iOS)
+- `[_mazin_device]` - Device type (Desktop, Mobile, Tablet)
 
-This plugin uses a lightweight GitHub Updater class.
+## Testing
 
-To enable auto-updates:
+To test if the plugin is working:
 
-- Ensure the plugin is installed from this GitHub repo.
-- The updater will check for new releases in the main branch.
+1. Make sure you're logged in as an administrator
+2. Visit your site with `?mazin_test_meta=1` added to the URL
+3. You should see a test page showing all the metadata
+
+Example: `https://yoursite.com/?mazin_test_meta=1`
+
+## Configuration
+
+### IP Lookup Service
+Choose from three free IP geolocation services:
+- **ipapi.co** (default) - Fast, reliable, good for production
+- **ipwho.is** - Alternative service with good accuracy
+- **ipinfo.io** - Another reliable option
+
+### Debug Logging
+Enable logging to troubleshoot issues. Logs are written to `wp-content/mazin-cf7-meta.log`
+
+## Troubleshooting
+
+### Plugin Not Working?
+1. Check if Contact Form 7 is installed and activated
+2. Verify the plugin is activated
+3. Check your WordPress debug log for errors
+4. Test with `?mazin_test_meta=1` to see if metadata is being collected
+
+### IP Address Shows as "Unknown"?
+1. Your server might be behind a proxy/CDN
+2. Check if you're using Cloudflare, AWS, or similar services
+3. The plugin automatically detects most proxy configurations
+
+### Location Shows as "Unknown"?
+1. Check if the selected IP service is working
+2. Try switching to a different IP service in settings
+3. Some IP addresses (especially private ones) can't be geolocated
 
 ## Requirements
 
-- WordPress 6.0+
-- Contact Form 7 plugin installed and active
+- WordPress 5.0+
+- Contact Form 7 plugin
 - PHP 7.4+
+- cURL support (for IP lookups)
 
-## Development
+## Support
 
-Pull requests and issues are welcome!
+For support, please visit: https://mazindigital.com
 
-1. Fork the repo
+## Changelog
 
-2. Create a feature branch (feature/awesome-feature)
-
-3. Commit and push your changes
-
-4. Submit a PR
-
-## License
-
-GPL-2.0-or-later.
-Free to use, modify, and distribute.
-
-## Credits
-
-Developed by Mazin Digital for internal use and client projects.
+### Version 0.4.0
+- Fixed broken settings page
+- Implemented multiple IP lookup services
+- Added proper error handling and logging
+- Improved IP detection for proxy/CDN setups
+- Added test functionality for debugging
